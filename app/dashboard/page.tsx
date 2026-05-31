@@ -1,11 +1,11 @@
-import { FC } from "react"
 import PageLayout from "@/components/PageLayout"
 import MetricSummary from "@/components/MetricSummary"
 import Button from "@/components/Button"
 import ProjectCard from "@/components/ProjectCard"
 import TaskCard from "@/components/TaskCard"
+import { FC } from "react"
 
-type Project = {
+interface Project {
   id: number
   title: string
   description: string
@@ -13,84 +13,53 @@ type Project = {
   tasksCount: number
 }
 
-type Task = {
+interface Task {
   id: number
   title: string
-  assignee: {
-    name: string
-    avatarUrl: string
-  }
+  assignee: string
   dueDate: string
   status: string
   priority: string
 }
 
-const sampleProjects: Project[] = [
-  {
-    id: 1,
-    title: "Project Alpha",
-    description: "Initial phase of the alpha release",
-    progress: 70,
-    tasksCount: 24,
-  },
-  {
-    id: 2,
-    title: "Project Beta",
-    description: "Marketing and user research",
-    progress: 45,
-    tasksCount: 15,
-  },
-  {
-    id: 3,
-    title: "Project Gamma",
-    description: "Final testing and bug fixes",
-    progress: 90,
-    tasksCount: 5,
-  },
+const projectsData: Project[] = [
+  { id: 1, title: "Project Alpha", description: "Design and develop Alpha features", progress: 75, tasksCount: 24 },
+  { id: 2, title: "Project Beta", description: "Test Beta modules", progress: 50, tasksCount: 12 },
+  { id: 3, title: "Project Gamma", description: "Deploy Gamma release", progress: 30, tasksCount: 8 },
 ]
 
-const sampleTasks: Task[] = [
-  {
-    id: 1,
-    title: "Design user onboarding flow",
-    assignee: { name: "Jane Doe", avatarUrl: "/avatars/jane.png" },
-    dueDate: "2023-08-15",
-    status: "In Progress",
-    priority: "High",
-  },
-  {
-    id: 2,
-    title: "Set up database backups",
-    assignee: { name: "John Smith", avatarUrl: "/avatars/john.png" },
-    dueDate: "2023-08-18",
-    status: "Pending",
-    priority: "Medium",
-  },
+const upcomingTasksData: Task[] = [
+  { id: 1, title: "Finalize UI Mockups", assignee: "Jane Doe", dueDate: "2024-07-10", status: "Pending", priority: "High" },
+  { id: 2, title: "Write Unit Tests", assignee: "John Smith", dueDate: "2024-07-12", status: "In Progress", priority: "Medium" },
+  { id: 3, title: "Prepare Release Notes", assignee: "Alice Johnson", dueDate: "2024-07-15", status: "Pending", priority: "Low" },
 ]
 
-export default function Dashboard() {
+export default function Dashboard(): JSX.Element {
   return (
     <PageLayout>
-      <div className="p-6">
-        <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="p-6 space-y-8">
+        <section>
+          <h1 className="text-2xl font-semibold mb-4">Summary Metrics</h1>
           <MetricSummary
-            totalProjects={sampleProjects.length}
-            totalTasks={sampleProjects.reduce((sum, p) => sum + p.tasksCount, 0)}
-            completedTasks={120}
-            pendingTasks={45}
-            upcomingDeadlines={8}
+            totalProjects={projectsData.length}
+            totalTasks={projectsData.reduce((sum, p) => sum + p.tasksCount, 0)}
+            completedTasks={30}
+            pendingTasks={12}
+            upcomingDeadlines={5}
           />
         </section>
-        <section className="flex flex-wrap gap-4 mb-8">
-          <Button variant="primary">Create Project</Button>
-          <Button variant="primary">View All Teams</Button>
-          <Button variant="primary">New Task</Button>
+        <section>
+          <h2 className="text-xl font-semibold mb-3">Quick Links</h2>
+          <div className="flex space-x-4">
+            <Button variant="primary">Create Project</Button>
+            <Button variant="primary">View All Teams</Button>
+            <Button variant="primary">New Task</Button>
+          </div>
         </section>
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Projects Overview</h2>
+        <section>
+          <h2 className="text-xl font-semibold mb-4">Projects Overview</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {sampleProjects.map((project) => (
+            {projectsData.map(project => (
               <ProjectCard
                 key={project.id}
                 title={project.title}
@@ -102,9 +71,9 @@ export default function Dashboard() {
           </div>
         </section>
         <section>
-          <h2 className="text-2xl font-semibold mb-4">Upcoming Tasks</h2>
+          <h2 className="text-xl font-semibold mb-4">Upcoming Tasks</h2>
           <div className="space-y-4">
-            {sampleTasks.map((task) => (
+            {upcomingTasksData.map(task => (
               <TaskCard
                 key={task.id}
                 title={task.title}
