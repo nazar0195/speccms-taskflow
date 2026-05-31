@@ -1,5 +1,4 @@
 import PageLayout from "@/components/PageLayout"
-import MetricSummary from "@/components/MetricSummary"
 import Button from "@/components/Button"
 import ProjectCard from "@/components/ProjectCard"
 import TaskCard from "@/components/TaskCard"
@@ -38,16 +37,6 @@ export default function Dashboard(): JSX.Element {
   return (
     <PageLayout>
       <div className="p-6 space-y-8">
-        <section>
-          <h1 className="text-2xl font-semibold mb-4">Summary Metrics</h1>
-          <MetricSummary
-            totalProjects={projectsData.length}
-            totalTasks={projectsData.reduce((sum, p) => sum + p.tasksCount, 0)}
-            completedTasks={30}
-            pendingTasks={12}
-            upcomingDeadlines={5}
-          />
-        </section>
         <section>
           <h2 className="text-xl font-semibold mb-3">Quick Links</h2>
           <div className="flex space-x-4">
